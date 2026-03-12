@@ -6,6 +6,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post()
+  createUser(@Body() user: CreateUserDto) {
+    return this.usersService.create(user);
+  }
+
   @Get()
   getUsers() {
     return this.usersService.findAll();
@@ -14,11 +19,6 @@ export class UsersController {
   @Get(':id')
   getUser(@Param('id') id: string) {
     return this.usersService.getUserById(id);
-  }
-
-  @Post()
-  createUser(@Body() user: CreateUserDto) {
-    return this.usersService.create(user);
   }
 
   @Patch(':id')

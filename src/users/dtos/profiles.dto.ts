@@ -19,66 +19,66 @@ export class CreateProfileDto {
   @IsString()
   @IsUrl()
   @IsOptional()
-  avatar: string;
+  avatar?: string;
 
   @IsString()
   @IsOptional()
-  firstName: string;
+  firstName?: string;
 
   @IsString()
   @IsOptional()
-  secondName: string;
+  secondName?: string;
 
   @IsString()
   @IsOptional()
-  lastName: string;
+  lastName?: string;
 
   @IsString()
   @IsOptional()
-  secondLastName: string;
+  secondLastName?: string;
 
   @IsOptional()
-  birthDate: Date;
-
-  @IsString()
-  @IsOptional()
-  houseNumber: string;
+  birthDate?: Date;
 
   @IsString()
   @IsOptional()
-  address: string;
+  houseNumber?: string;
 
   @IsString()
   @IsOptional()
-  parish: string;
+  address?: string;
 
   @IsString()
   @IsOptional()
-  city: string;
+  parish?: string;
 
   @IsString()
   @IsOptional()
-  state: string;
+  city?: string;
 
   @IsString()
   @IsOptional()
-  country: string;
+  state?: string;
+
+  @IsString()
+  @IsOptional()
+  country?: string;
 
   @IsNumber()
   @IsOptional()
-  identificationType: number;
+  identificationType?: number;
 
   @IsNumber()
   @IsOptional()
-  legalPerson: number;
+  legalPerson?: number;
 
   @IsNumber()
   @IsOptional()
-  maritialStatus: number;
+  maritialStatus?: number;
 
   @IsString()
   @IsOptional()
-  spouse: string;
+  spouse?: string;
 
   @ValidateNested()
   @Type(() => UpdateUserDto)
@@ -87,20 +87,20 @@ export class CreateProfileDto {
 
   @IsString()
   @IsOptional()
-  parishId: string;
+  parishId?: string;
 
   @IsString()
   @IsOptional()
-  cityId: string;
+  cityId?: string;
 
   @IsString()
   @IsOptional()
-  stateId: string;
+  stateId?: string;
 }
 
 export class UpdateProfileDto extends PartialType(OmitType(CreateProfileDto, ['user'])) {
   @ValidateNested()
   @Type(() => UpdateUserDto)
   @IsOptional()
-  user: UpdateUserDto;
+  user?: UpdateUserDto;
 }

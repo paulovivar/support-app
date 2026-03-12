@@ -6,6 +6,11 @@ import { ProfilesService } from './profiles.service';
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
+  @Post()
+  createProfile(@Body() profile: CreateProfileDto) {
+    return this.profilesService.create(profile);
+  }
+
   @Get()
   getProfiles() {
     return this.profilesService.findAll();
@@ -19,11 +24,6 @@ export class ProfilesController {
   @Get(':id/user')
   getUserByProfile(@Param('id') id: string) {
     return this.profilesService.getUserByProfileId(id);
-  }
-
-  @Post()
-  createProfile(@Body() profile: CreateProfileDto) {
-    return this.profilesService.create(profile);
   }
 
   @Patch(':id')

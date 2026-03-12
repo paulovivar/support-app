@@ -11,21 +11,6 @@ export class ProfilesService {
     private readonly profileRepository: Repository<Profile>,
   ) {}
 
-  async findAll(): Promise<Profile[]> {
-    const profiles = await this.profileRepository.find();
-    return profiles;
-  }
-
-  async getProfileById(id: string) {
-    const profile = await this.findOne(id);
-    return profile;
-  }
-
-  async getUserByProfileId(id: string) {
-    const profile = await this.findOne(id);
-    return profile.user;
-  }
-
   async create(profile: CreateProfileDto) {
     try {
       const { userDni, userEmail, userPhone, user, ...profileData } = profile;
@@ -55,6 +40,21 @@ export class ProfilesService {
       console.error('Error detallado:', error);
       throw new BadRequestException(`Error al crear el usuario y perfil`);
     }
+  }
+
+  async findAll(): Promise<Profile[]> {
+    const profiles = await this.profileRepository.find();
+    return profiles;
+  }
+
+  async getProfileById(id: string) {
+    const profile = await this.findOne(id);
+    return profile;
+  }
+
+  async getUserByProfileId(id: string) {
+    const profile = await this.findOne(id);
+    return profile.user;
   }
 
   async update(id: string, changes: UpdateProfileDto) {

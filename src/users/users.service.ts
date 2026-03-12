@@ -11,6 +11,15 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async create(user: CreateUserDto) {
+    try {
+      const newUser = await this.userRepository.save(user);
+      return newUser;
+    } catch {
+      throw new BadRequestException(`Error al crear el usuario`);
+    }
+  }
+
   async findAll(): Promise<User[]> {
     const users = await this.userRepository.find();
     return users;
@@ -21,20 +30,11 @@ export class UsersService {
     return user;
   }
 
-  async create(user: CreateUserDto) {
-    try {
-      const newUser = await this.userRepository.save(user);
-      return newUser;
-    } catch {
-      throw new BadRequestException(`Error al crear el usuario`);
-    }
-  }
-
   async update(id: string, changes: UpdateUserDto) {
     try {
       const user = await this.findOne(id);
-      const updatedUser = this.userRepository.merge(user, changes);
-      const userSaved = await this.userRepository.save(updatedUser);
+      const userUpdated = this.userRepository.merge(user, changes);
+      const userSaved = await this.userRepository.save(userUpdated);
       return userSaved;
     } catch {
       throw new BadRequestException(`Error al actualizar el usuario con id ${id}`);
@@ -44,8 +44,8 @@ export class UsersService {
   async delete(id: string) {
     try {
       const user = await this.findOne(id);
-      const deletedUser = this.userRepository.delete(user.id);
-      return { deletedUser, message: `Usuario con id ${id} eliminado correctamente` };
+      const userDeleted = this.userRepository.delete(user.id);
+      return { userDeleted, message: `Usuario con id ${id} eliminado correctamente` };
     } catch {
       throw new BadRequestException(`Error al eliminar el usuario con id ${id}`);
     }
