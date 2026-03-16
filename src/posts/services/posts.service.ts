@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { CreatePostDto } from '../dto/create-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Post } from './entities/post.entity';
+import { Post } from '../entities/post.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -12,23 +12,33 @@ export class PostsService {
     private readonly postRepository: Repository<Post>,
   ) {}
 
-  async create(createPostDto: CreatePostDto) {
+  async create(body: CreatePostDto) {
     try {
-      const newPost = await this.postRepository.save(createPostDto);
-      return newPost;
+      const newPost = await this.postRepository.save({
+        ...body,
+        profile: { id: body.profileId },
+      });
+      return this.findOne(newPost.id);
     } catch {
       throw new BadRequestException(`Error al crear el post`);
     }
   }
 
   async findAll() {
-    const posts = await this.postRepository.find();
+    const posts = await this.postRepository.find({
+      relations: ['profile.user'],
+    });
     return posts;
   }
 
   async findOneById(id: string) {
     const post = await this.findOne(id);
     return post;
+  }
+
+  async getPostsByProfileId(id: string) {
+    const post = await this.findOne(id);
+    return post.profile;
   }
 
   async update(id: string, updatePostDto: UpdatePostDto) {
@@ -53,7 +63,10 @@ export class PostsService {
   }
 
   private async findOne(id: string) {
-    const post = await this.postRepository.findOneBy({ id });
+    const post = await this.postRepository.findOne({
+      where: { id },
+      relations: ['profile.user'],
+    });
     if (!post) {
       throw new NotFoundException(`El post con el ${id} no existe`);
     }

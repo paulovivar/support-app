@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
-import { PostsService } from './posts.service';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { PostsService } from '../services/posts.service';
+import { CreatePostDto } from '../dto/create-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 
 @Controller('api/v1/posts')
 export class PostsController {
@@ -20,6 +20,11 @@ export class PostsController {
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.postsService.findOneById(id);
+  }
+
+  @Get(':id/profile')
+  getPostsByProfile(@Param('id') id: string) {
+    return this.postsService.getPostsByProfileId(id);
   }
 
   @Put(':id')

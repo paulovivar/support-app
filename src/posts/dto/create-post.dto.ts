@@ -16,4 +16,8 @@ export class CreatePostDto {
   @IsString()
   @IsOptional()
   summary?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  profileId: string;
 }

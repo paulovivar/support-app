@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProfileDto, UpdateProfileDto } from './dtos/profiles.dto';
+import { CreateProfileDto, UpdateProfileDto } from '../dtos/profiles.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Profile } from './entities';
+import { Profile } from '../entities';
 
 @Injectable()
 export class ProfilesService {

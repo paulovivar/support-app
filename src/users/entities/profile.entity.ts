@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from './user.entity';
+import { Post } from 'src/posts/entities/post.entity';
 
 @Entity('adm_perfiles')
 export class Profile {
@@ -75,4 +76,7 @@ export class Profile {
 
   @Column({ type: 'text', name: 'provincia_id', nullable: true })
   stateId: string;
+
+  @OneToMany(() => Post, (post) => post.profile)
+  posts: Post[];
 }

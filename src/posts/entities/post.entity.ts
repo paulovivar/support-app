@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Profile } from 'src/users/entities';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('prt_posts')
 export class Post {
@@ -25,4 +26,8 @@ export class Post {
 
   @Column({ type: 'boolean', default: true, name: 'borrador' })
   idDraft: boolean;
+
+  @ManyToOne(() => Profile, (profile) => profile.posts, { nullable: false })
+  @JoinColumn({ name: 'perfil_id' })
+  profile: Profile;
 }
