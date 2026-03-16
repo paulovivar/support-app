@@ -52,9 +52,15 @@ export class ProfilesService {
     return profile;
   }
 
-  async getUserByProfileId(id: string) {
-    const profile = await this.findOne(id);
-    return profile.user;
+  async getPostsByProfileId(id: string) {
+    const profile = await this.profileRepository.findOne({
+      where: { id },
+      relations: ['posts'],
+    });
+    if (!profile) {
+      throw new NotFoundException(`El perfil con id ${id} no existe`);
+    }
+    return profile.posts;
   }
 
   async update(id: string, changes: UpdateProfileDto) {

@@ -25,11 +25,11 @@ export class CategoriesService {
     return await this.categoryRepository.find();
   }
 
-  async findOneById(id: string) {
+  async findOneById(id: number) {
     return await this.findOne(id);
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     try {
       const category = await this.findOne(id);
       const updated = this.categoryRepository.merge(category, updateCategoryDto);
@@ -39,7 +39,7 @@ export class CategoriesService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     try {
       const category = await this.findOne(id);
       await this.categoryRepository.delete(category.id);
@@ -49,7 +49,7 @@ export class CategoriesService {
     }
   }
 
-  private async findOne(id: string) {
+  private async findOne(id: number) {
     const category = await this.categoryRepository.findOne({ where: { id } });
     if (!category) {
       throw new NotFoundException(`La categoría con id ${id} no existe`);

@@ -22,11 +22,6 @@ export class PostsController {
     return this.postsService.findOneById(id);
   }
 
-  @Get(':id/profile')
-  getPostsByProfile(@Param('id') id: string) {
-    return this.postsService.getPostsByProfileId(id);
-  }
-
   @Put(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postsService.update(id, updatePostDto);

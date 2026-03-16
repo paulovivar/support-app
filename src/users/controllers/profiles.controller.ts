@@ -21,9 +21,9 @@ export class ProfilesController {
     return this.profilesService.getProfileById(id);
   }
 
-  @Get(':id/user')
-  getUserByProfile(@Param('id') id: string) {
-    return this.profilesService.getUserByProfileId(id);
+  @Get(':id/posts')
+  getPosts(@Param('id') id: string) {
+    return this.profilesService.getPostsByProfileId(id);
   }
 
   @Patch(':id')

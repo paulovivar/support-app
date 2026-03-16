@@ -1,9 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { Post } from '../entities/post.entity';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Post } from '../entities/post.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class PostsService {
@@ -17,6 +18,7 @@ export class PostsService {
       const newPost = await this.postRepository.save({
         ...body,
         profile: { id: body.profileId },
+        categories: body.categoryIds?.map((categoryId) => ({ id: categoryId })),
       });
       return this.findOne(newPost.id);
     } catch {
@@ -36,9 +38,12 @@ export class PostsService {
     return post;
   }
 
-  async getPostsByProfileId(id: string) {
-    const post = await this.findOne(id);
-    return post.profile;
+  async getPostsByCategoryId(categoryId: number) {
+    const posts = await this.postRepository.findOne({
+      where: { categories: { id: categoryId } },
+      relations: ['profile.user'],
+    });
+    return posts;
   }
 
   async update(id: string, updatePostDto: UpdatePostDto) {
@@ -65,7 +70,7 @@ export class PostsService {
   private async findOne(id: string) {
     const post = await this.postRepository.findOne({
       where: { id },
-      relations: ['profile.user'],
+      relations: ['profile.user', 'categories'],
     });
     if (!post) {
       throw new NotFoundException(`El post con el ${id} no existe`);

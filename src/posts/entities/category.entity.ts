@@ -1,9 +1,10 @@
-import { PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
+import { Post } from './post.entity';
 
 @Entity({ name: 'prt_categories' })
 export class Category {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', name: 'creado' })
   createAt: Date;
@@ -13,4 +14,7 @@ export class Category {
 
   @Column({ type: 'text', unique: true })
   name: string;
+
+  @ManyToMany(() => Post, (post) => post.categories)
+  posts: Post[];
 }
