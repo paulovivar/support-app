@@ -1,4 +1,4 @@
-import { Profile } from 'src/users/entities';
+import { Profile } from '../../users/entities';
 import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Category } from './category.entity';
 
