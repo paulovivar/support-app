@@ -12,8 +12,11 @@ export class Category {
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', name: 'actualizado' })
   updateAt: Date;
 
-  @Column({ type: 'text', unique: true })
+  @Column({ type: 'text', name: 'nombre', unique: true })
   name: string;
+
+  @Column({ type: 'text', name: 'descripcion', nullable: true })
+  description: string;
 
   @ManyToMany(() => Post, (post) => post.categories)
   posts: Post[];

@@ -11,7 +11,7 @@ export class CreatePostDto {
 
   @IsString()
   @IsOptional()
-  converImage?: string;
+  coverImage?: string;
 
   @IsString()
   @IsOptional()

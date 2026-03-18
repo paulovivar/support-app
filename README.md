@@ -57,6 +57,22 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Migrations with database typeorm
+
+```bash
+# Genera la migración automáticamente
+npm run migrations:generate ./src/database/migrations/init
+
+# Crea una migración de forma manual
+npm run migrations:create
+
+# Muestra las migraciones generadas y si estan ejecutadas o no
+npm run migrations:show
+
+# Ejecuta una migración existemnte para una DB
+npm run migrations:run
+```
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
