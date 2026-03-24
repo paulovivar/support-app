@@ -32,6 +32,13 @@ export class UsersService {
     return user;
   }
 
+  async getUserByUsername(username: string) {
+    const user = await this.userRepository.findOne({
+      where: { username },
+    });
+    return user;
+  }
+
   async update(id: string, changes: UpdateUserDto) {
     try {
       const user = await this.findOne(id);

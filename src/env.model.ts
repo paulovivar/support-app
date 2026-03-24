@@ -7,6 +7,7 @@ export interface Env {
   DB_NAME: string;
   DB_USER: string;
   DB_PASSWORD: string;
-
   DB_LOGGING: boolean;
+
+  JWT_SECRET: string;
 }
