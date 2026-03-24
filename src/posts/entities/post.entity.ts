@@ -26,7 +26,7 @@ export class Post {
   summary: string;
 
   @Column({ type: 'boolean', default: true, name: 'borrador' })
-  idDraft: boolean;
+  isDraft: boolean;
 
   @ManyToOne(() => Profile, (profile) => profile.posts, { nullable: false })
   @JoinColumn({ name: 'perfil_id' })

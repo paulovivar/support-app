@@ -5,19 +5,21 @@ import { Repository } from 'typeorm';
 import { Post } from '../entities/post.entity';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { UpdatePostDto } from '../dto/update-post.dto';
+import { OpenaiService } from 'src/ai/services/openai.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
+    private readonly openaiService: OpenaiService,
   ) {}
 
-  async create(body: CreatePostDto) {
+  async create(body: CreatePostDto, profileId: string) {
     try {
       const newPost = await this.postRepository.save({
         ...body,
-        profile: { id: body.profileId },
+        profile: { id: profileId },
         categories: body.categoryIds?.map((categoryId) => ({ id: categoryId })),
       });
       return this.findOne(newPost.id);
@@ -55,6 +57,27 @@ export class PostsService {
     } catch {
       throw new BadRequestException(`Error al actualizar el post con id ${id}`);
     }
+  }
+
+  async publish(id: string, profileId: string) {
+    const post = await this.findOne(id);
+    if (post.profile.id !== profileId) {
+      throw new BadRequestException(`No tienes permisos para publicar este post`);
+    }
+    if (!post.title || !post.content || post.categories.length === 0) {
+      throw new BadRequestException(`El post debe tener título, contenido y al menos una categoría para ser publicado`);
+    }
+    const summary = await this.openaiService.generateSummary(post.content);
+    const image = await this.openaiService.generateImage(summary);
+
+    const postUpdated = this.postRepository.merge(post, {
+      isDraft: false,
+      summary,
+      coverImage: image,
+    });
+    const postSaved = await this.postRepository.save(postUpdated);
+
+    return this.findOne(postSaved.id);
   }
 
   async remove(id: string) {
