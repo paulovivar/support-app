@@ -15,8 +15,8 @@ export class PostsController {
   @Post()
   create(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
     const payload = req.user as Payload;
-    const userId = payload.sub;
-    return this.postsService.create(createPostDto, userId);
+    const profileId = payload.profileId;
+    return this.postsService.create(createPostDto, profileId);
   }
 
   @Get()
@@ -36,11 +36,10 @@ export class PostsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put(':id')
+  @Put(':id/publish')
   publish(@Param('id') id: string, @Req() req: Request) {
-    const payload = req.user as { sub: string };
-    const userId = payload.sub;
-    return this.postsService.publish(id, userId);
+    const payload = req.user as Payload;
+    return this.postsService.publish(id, payload.profileId);
   }
 
   @UseGuards(AuthGuard('jwt'))

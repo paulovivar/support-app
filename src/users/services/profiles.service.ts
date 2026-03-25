@@ -52,6 +52,17 @@ export class ProfilesService {
     return profile;
   }
 
+  async getProfileIdByUserId(userId: string): Promise<string> {
+    const profile = await this.profileRepository.findOne({
+      where: { user: { id: userId } },
+    });
+    if (!profile) {
+      throw new NotFoundException(`No se encontró un perfil para el usuario con id ${userId}`);
+    }
+
+    return profile.id;
+  }
+
   async getPostsByProfileId(id: string) {
     const profile = await this.profileRepository.findOne({
       where: { id },

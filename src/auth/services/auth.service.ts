@@ -5,11 +5,13 @@ import { User } from 'src/users/entities';
 
 import { UsersService } from 'src/users/services/users.service';
 import { Payload } from '../models/payload.model';
+import { ProfilesService } from 'src/users/services/profiles.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly profilesService: ProfilesService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -25,8 +27,9 @@ export class AuthService {
     return user;
   }
 
-  generateToken(user: User) {
-    const payload: Payload = { sub: user.id };
+  async generateToken(user: User) {
+    const profileId = await this.profilesService.getProfileIdByUserId(user.id);
+    const payload: Payload = { sub: user.id, profileId };
     return this.jwtService.sign(payload);
   }
 }

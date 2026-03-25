@@ -17,9 +17,9 @@ export class CreatePostDto {
   @IsOptional()
   summary?: string;
 
-  @IsString()
-  @IsNotEmpty()
-  profileId: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // profileId: string;
 
   @IsArray()
   @IsNumber({}, { each: true })
