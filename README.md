@@ -41,6 +41,15 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
+# build
+$ npm run build
+
+# pending migrations
+$ npm run typeorm migration:run
+
+# watch mode
+$ npm run start:dev
+
 # production mode
 $ npm run start:prod
 ```
