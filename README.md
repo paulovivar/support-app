@@ -120,7 +120,7 @@ Nest es un proyecto de código abierto con licencia MIT. Su crecimiento es posib
 
 ## Mantente en contacto
 
-- Autor - [Paulo Vivar](www.linkedin.com/in/paulo-vivar)
+- Autor - [Paulo Vivar](www.linkedin.com/in/paulovivar)
 - Website - [https://paulo-vivar.vercel.app](https://paulo-vivar.vercel.app)
 - Twitter - [@paulovivar](https://twitter.com/paulovivar)
 
